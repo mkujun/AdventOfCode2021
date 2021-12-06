@@ -1,6 +1,5 @@
 const fs = require('fs');
 let input = fs.readFileSync("./inputs/04.txt", 'utf8').split('\n').slice(0, -1);
-//let input = fs.readFileSync("input.txt", 'utf8').split('\n').slice(0, -1);
 
 let numbers = input[0].split(",");
 
@@ -31,7 +30,7 @@ for(let i = 2; i <= input.length; i++) {
   }
 }
 
-let bingo = false;
+//let bingo = false;
 let bingoBoard;
 let bingoNumber;
 
@@ -54,57 +53,65 @@ const calculate = (board) => {
     })
   })
 
-  console.log("part 1", sum * bingoNumber);
+  console.log("part 2", sum * bingoNumber);
 }
 
 const searchForBingo = (number) => {
   // row search
   boards.forEach(board => {
+    if (!board.bingoOnBoard) {
+    
     for(let i = 0; i < 5; i++) {
       let rowCounter = 0;
         for(let j = 0; j < 5; j++) {
           if (board[i][j].marked) {
             rowCounter++;
             if (rowCounter == 5) {
-              bingo = true;
-              bingoNumber = number;j
-              console.log("bingo");
+              //bingo = true;
+              bingoNumber = number;
+              //console.log("bingo");
               console.log("bingoNumber", bingoNumber);
-              printBingoBoard(board);
+              board.bingoOnBoard = true;
+              //printBingoBoard(board);
               calculate(board);
             }
           }
         }
     }
 
+    }
+
   })
 
   // column search
   boards.forEach(board => {
-  for(let i = 0; i < 5; i++) {
-    let columnCounter = 0;
-    for(let j = 0; j < 5; j++) {
-        if (board[j][i].marked) {
-          columnCounter++;
-          if (columnCounter == 5) {
-            bingo = true;
-            bingoNumber = number;j
-            console.log("bingo");
-            console.log("bingoNumber", bingoNumber);
-            printBingoBoard(board);
-            calculate(board);
+    if (!board.bingoOnBoard) {
+    
+    for(let i = 0; i < 5; i++) {
+      let columnCounter = 0;
+      for(let j = 0; j < 5; j++) {
+          if (board[j][i].marked) {
+            columnCounter++;
+            if (columnCounter == 5) {
+              //bingo = true;
+              bingoNumber = number;
+              //console.log("bingo");
+              console.log("bingoNumber", bingoNumber);
+              board.bingoOnBoard = true;
+              //printBingoBoard(board);
+              calculate(board);
+            }
           }
         }
       }
+
     }
+
   })
 }
 
 // marking boards from input
 for (let i = 0; i < numbers.length; i++) {
-  
-  if (bingo == false) {
-    
     // filling out board input
     boards.forEach(board => {
       board.forEach(row => {
@@ -117,9 +124,4 @@ for (let i = 0; i < numbers.length; i++) {
     })
 
     searchForBingo(numbers[i]);
-
-  }
-  else {
-    break;
-  }
 }
