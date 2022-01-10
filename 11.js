@@ -1,6 +1,5 @@
 const fs = require('fs');
 let input = fs.readFileSync("./inputs/11.txt", 'utf8').split('\n').slice(0, -1);
-//let input = fs.readFileSync("input.txt", 'utf8').split('\n').slice(0, -1);
 let matrix = [];
 let flashes = [];
 let part1 = 0;
@@ -64,13 +63,32 @@ increasePointsAroundFlash = () => {
   })
 }
 
-for (k = 1; k <= 100; k++) {
+// part 2
+allFlash = (step) => {
+  let allZeroes = true;
+
+  for(let i=0; i <10; i++) {
+    for(let j=0; j <10; j++) {
+      if (matrix[i][j] != 0) {
+        allZeroes = false;
+      }
+    }
+  }
+
+  if (allZeroes) {
+    console.log("step", step);
+  }
+}
+
+for (k = 1; k <= 300; k++) {
   increaseByOne();
 
   do{
     findFlashes();
     increasePointsAroundFlash();
   } while (flashes.length > 0)
+
+  allFlash(k);
 }
 
 console.log("result", part1);
