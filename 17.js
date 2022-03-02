@@ -18,12 +18,6 @@ const isInArea = (x, y) => {
   ) {
     return true;
   }
-
-  else {
-    if (y > yMax) {
-      yMax = y;
-    }
-  }
 }
 
 const step = (velocity) => {
@@ -38,27 +32,27 @@ let lst = [];
 const trickShot = (velocity) => {
   let position = { x: 0, y: 0 }
 
-  for (let i = 0; i < 100; i++) {
+  let pero = false;
+  let initialVelocity = {...velocity};
+
+  for (let i = 0; i < 200; i++) {
     position.x = position.x + velocity.x;
     position.y = position.y + velocity.y;
     step(velocity);
-    const pero = isInArea(position.x, position.y);
-    if (pero) {
-      lst.push(yMax);
-      yMax = 0;
+    pero = isInArea(position.x, position.y);
+
+    if (pero === true) {
+      lst.push(initialVelocity);
       break;
     }
-    else {continue;}
   }
+
 }
 
-let velocityLimit = Math.abs(targetArea.y[0]) - 1;
-
-for (let i = 0; i <= velocityLimit; i ++) {
-  for (let j = 0; j <= velocityLimit; j ++) {
+for (let i = -97; i <= 273; i ++) {
+  for (let j = -97; j <= 273; j ++) {
     let velocity = { x: i, y: j};
     trickShot(velocity);
   }
 }
-
-console.log(lst);
+console.log("lst length", lst.length);
